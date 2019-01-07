@@ -54,8 +54,6 @@ class LavadoController extends Controller
     }
 
     public function update(Request $request){
-        $current = Carbon::today()->format('ymd');
-
         $lavado = Lavado::findOrFail($request->id);
         $lavado->servicio_id = $request->servicio_id;
         $lavado->descripcion = $request->descripcion;

@@ -46,6 +46,13 @@ class ClienteController extends Controller
 
     }
 
+    public function selectCiente(Request $request)
+    {
+        $personas = Persona::select('personas.id','personas.nombre')
+            ->orderBy('nombre', 'asc')->get();
+        return ['personas' => $personas];
+    } 
+
     public function update(Request $request){
         $persona = Persona::findOrFail($request->id);
         $persona->nombre = $request->nombre;

@@ -19,6 +19,7 @@ class CreateVentasTable extends Migration
             $table->unsignedInteger('persona_id');
             $table->string('num_factura',50);
             $table->float('sub_total')->default(0);
+            $table->float('iva')->default(0);
             $table->float('total')->default(0);
             $table->timestamps();
 

@@ -15,6 +15,12 @@
 <template v-if="menu==4">
     <lavado-component></lavado-component>
 </template>
+<template v-if="menu==5">
+    <venta-component></venta-component>
+</template>
+<template v-if="menu==6">
+    <compra-component></compra-component>
+</template>
 
 <template v-if="menu==7">
     <user-component></user-component>

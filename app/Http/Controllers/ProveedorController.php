@@ -44,6 +44,15 @@ class ProveedorController extends Controller
             'personas' => $personas
         ];
     }
+
+    public function selectProveedor(Request $request)
+    {
+        $personas = Proveedor::join('personas','proveedores.id','=','personas.id')
+            ->select('personas.id','personas.nombre')
+            ->orderBy('nombre', 'asc')->get();
+ 
+        return ['personas' => $personas];
+    } 
  
     public function store(Request $request)
     {

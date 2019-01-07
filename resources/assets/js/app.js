@@ -22,6 +22,8 @@ Vue.component('proveedor-component', require('./components/Proveedor.vue'));
 Vue.component('rol-component', require('./components/Rol.vue'));
 Vue.component('user-component', require('./components/User.vue'));
 Vue.component('lavado-component', require('./components/Lavado.vue'));
+Vue.component('compra-component', require('./components/Compra.vue'));
+Vue.component('venta-component', require('./components/Venta.vue'));
 
 const app = new Vue({
     el: '#app',

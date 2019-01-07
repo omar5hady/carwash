@@ -8,9 +8,9 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card scroll-box">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Bitacora Lavados
+                        <i class="fa fa-align-justify"></i> Facturas de venta
                         <!--   Boton Nuevo    -->
-                        <button type="button" @click="abrirModal('lavado','registrar')" class="btn btn-secondary">
+                        <button type="button" @click="abrirModal('compra','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
                         <!---->
@@ -21,14 +21,12 @@
                                 <div class="input-group">
                                     <!--Criterios para el listado de busqueda -->
                                     <select class="form-control col-md-4" v-model="criterio">
-                                      <option value="servicios.nombre">Servicio</option>
-                                      <option value="lavados.fecha">Fecha</option>
-                                      <option value="lavados.importe">Importe</option>
-                                      <option value="lavados.descripcion">Descripcion</option>
+                                      <option value="personas.nombre">Proveedor</option>
+                                      <option value="ventas.fecha">Fecha</option>
                                     </select>
-                                    <input type="date" v-if="criterio=='lavados.fecha'" v-model="buscar" @keyup.enter="listarLavado(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <input type="text" v-else v-model="buscar" @keyup.enter="listarLavado(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarLavado(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="date" v-if="criterio=='ventas.fecha'" v-model="buscar" @keyup.enter="listarCompra(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <input type="text" v-else v-model="buscar" @keyup.enter="listarCompra(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarCompra(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -36,26 +34,32 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Servicio</th>
-                                    <th>Descripcion</th>
-                                    <th>Importe</th>
+                                    <th>Cliente</th>
+                                    <th>RFC</th>
                                     <th>Fecha</th>
+                                    <th>No. Factura</th>
+                                    <th>Subtotal</th>
+                                    <th>I.V.A.</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="lavado in arrayLavado" :key="lavado.id">
+                                <tr v-for="venta in arrayVenta" :key="venta.id">
                                     <td style="width:10%">
-                                        <button type="button" @click="abrirModal('lavado','actualizar',lavado)" class="btn btn-warning btn-sm">
+                                        <button type="button" @click="abrirModal('compra','actualizar',venta)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <button type="button" class="btn btn-danger btn-sm" @click="eliminarLavado(lavado)">
+                                        <button type="button" class="btn btn-danger btn-sm" @click="eliminarCompra(venta)">
                                           <i class="icon-trash"></i>
                                         </button>
                                     </td>
-                                    <td v-text="lavado.nombre"></td>
-                                    <td v-text="lavado.descripcion" style="width:40%"></td>
-                                    <td v-text="'$ '+lavado.importe"></td>
-                                    <td v-text="lavado.fecha"></td>
+                                    <td v-text="venta.nombre"></td>
+                                    <td v-text="venta.rfc"></td>
+                                    <td v-text="venta.fecha"></td>
+                                    <td v-text="venta.num_factura"></td>
+                                    <td v-text="'$ '+venta.sub_total"></td>
+                                    <td v-text="'$ '+venta.iva"></td>
+                                    <td v-text="'$ '+venta.total"></td>
                                 </tr>                               
                             </tbody>
                         </table>
@@ -90,31 +94,37 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="email-input">Servicio (*)</label>
+                                    <label class="col-md-3 form-control-label" for="email-input">Cliente (*)</label>
                                     <div class="col-md-9">
-                                        <select class="form-control" @click="selectPrecioServicio(servicio_id)" v-model="servicio_id">
-                                            <option value="0">Seleccione el servicio</option>
-                                            <option v-for="servicio in arrayServicio" :key="servicio.id" :value="servicio.id" v-text="servicio.nombre + '| $'+ servicio.precio">
+                                        <select class="form-control" v-model="persona_id">
+                                            <option value="0">Seleccione el cliente</option>
+                                            <option v-for="proveedor in arrayProveedor" :key="proveedor.id" :value="proveedor.id" v-text="proveedor.nombre">
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Descripcion</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">No. Factura (*)</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Descripcion del servicio">
+                                        <input type="text" v-model="num_factura" class="form-control" placeholder="Número de factura">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Importe</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Fecha (*)</label>
+                                    <div class="col-md-9">
+                                        <input type="date" v-model="fecha" class="form-control" placeholder="Fecha">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Subtotal (*)</label>
                                     <div class="col-md-4">
-                                        <input type="text" maxlength="8" v-on:keypress="isNumber(event)" v-model="importe" class="form-control" placeholder="Importe del servicio">
+                                        <input type="text" maxlength="8" v-on:keypress="isNumber(event)" v-model="sub_total" class="form-control" placeholder="Subtotal">
                                     </div>
                                 </div>
                                 <!-- Div para mostrar los errores que mande validerDepartamento -->
-                                <div v-show="errorLavado" class="form-group row div-error">
+                                <div v-show="errorCompra" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjLavado" :key="error" v-text="error">
+                                        <div v-for="error in errorMostrarMsjCompra" :key="error" v-text="error">
 
                                         </div>
                                     </div>
@@ -125,8 +135,8 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
                             <!-- Condicion para elegir el boton a mostrar dependiendo de la accion solicitada-->
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarLavado()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarLavado()">Actualizar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarCompra()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarCompra()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -148,16 +158,17 @@
         data(){
             return{
                 id:0,
-                descripcion : '',
-                importe:0,
-                servicio_id: 0,
-                arrayLavado : [],
-                arrayServicio : [],
+                fecha : '',
+                sub_total:0,
+                persona_id: 0,
+                num_factura:'',
+                arrayProveedor : [],
+                arrayVenta : [],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion: 0,
-                errorLavado : 0,
-                errorMostrarMsjLavado : [],
+                errorCompra : 0,
+                errorMostrarMsjCompra : [],
                 pagination : {
                     'total' : 0,         
                     'current_page' : 0,
@@ -167,7 +178,7 @@
                     'to' : 0,
                 },
                 offset : 3,
-                criterio : 'servicios.nombre', 
+                criterio : 'personas.nombre', 
                 buscar : ''
             }
         },
@@ -201,41 +212,24 @@
         },
         methods : {
             /**Metodo para mostrar los registros */
-            listarLavado(page, buscar, criterio){
+            listarCompra(page, buscar, criterio){
                 let me = this;
-                var url = '/lavado?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+                var url = '/venta?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
                 axios.get(url).then(function (response) {
                     var respuesta = response.data;
-                    me.arrayLavado = respuesta.lavados.data;
+                    me.arrayVenta = respuesta.ventas.data;
                     me.pagination = respuesta.pagination;
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
             },
-            selectServicio(){
+            selectCliente(){
                 let me=this;
-                var url= '/servicio/selectServicio';
+                var url= '/cliente/selectCiente';
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayServicio = respuesta.servicios;
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            },
-
-            selectPrecioServicio(buscar){
-                let me = this;
-              
-                me.arrayPrecios=[];
-                var url = '/servicio/selectPrecioServicio?buscar=' + buscar;
-                axios.get(url).then(function (response) {
-                    var respuesta = response.data;
-                    me.arrayPrecios = respuesta.precios;
-
-                    /*if(me.importe==0)*/
-                    me.importe = me.arrayPrecios[0].precio;
+                    me.arrayProveedor = respuesta.personas;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -247,29 +241,30 @@
                 //Actualiza la pagina actual
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esta pagina
-                me.listarLavado(page,buscar,criterio);
+                me.listarCompra(page,buscar,criterio);
             },
             /**Metodo para registrar  */
-            registrarLavado(){
-                if(this.validarLavado()) //Se verifica si hay un error (campo vacio)
+            registrarCompra(){
+                if(this.validarCompra()) //Se verifica si hay un error (campo vacio)
                 {
                     return;
                 }
 
                 let me = this;
                 //Con axios se llama el metodo store de ServicioController
-                axios.post('/lavado/registrar',{
-                    'servicio_id': this.servicio_id,
-                    'descripcion': this.descripcion,
-                    'importe': this.importe
+                axios.post('/venta/registrar',{
+                    'persona_id': this.persona_id,
+                    'fecha': this.fecha,
+                    'sub_total': this.sub_total,
+                    'num_factura': this.num_factura
                 }).then(function (response){
                     me.cerrarModal(); //al guardar el registro se cierra el modal
-                    me.listarLavado(1,'','servicios.nombre'); //se enlistan nuevamente los registros
+                    me.listarCompra(1,'','personas.nombre'); //se enlistan nuevamente los registros
                     //Se muestra mensaje Success
                     swal({
                         position: 'top-end',
                         type: 'success',
-                        title: 'Servicio agregado correctamente',
+                        title: 'Compra agregada correctamente',
                         showConfirmButton: false,
                         timer: 1500
                         })
@@ -277,22 +272,23 @@
                     console.log(error);
                 });
             },
-            actualizarLavado(){
-                if(this.validarLavado()) //Se verifica si hay un error (campo vacio)
+            actualizarCompra(){
+                if(this.validarCompra()) //Se verifica si hay un error (campo vacio)
                 {
                     return;
                 }
 
                 let me = this;
                 //Con axios se llama el metodo update de ServicioController
-                axios.put('/lavado/actualizar',{
-                    'servicio_id': this.servicio_id,
-                    'descripcion': this.descripcion,
-                    'importe': this.importe,
+                axios.put('/venta/actualizar',{
+                    'persona_id': this.persona_id,
+                    'fecha': this.fecha,
+                    'sub_total': this.sub_total,
+                    'num_factura': this.num_factura,
                     'id' : this.id
                 }).then(function (response){
                     me.cerrarModal();
-                    me.listarLavado(1,'','servicios.nombre');
+                    me.listarCompra(1,'','personas.nombre');
                     //window.alert("Cambios guardados correctamente");
                     swal({
                         position: 'top-end',
@@ -305,11 +301,12 @@
                     console.log(error);
                 });
             },
-            eliminarLavado(data =[]){
+            eliminarCompra(data =[]){
                 this.id=data['id'];
-                this.servicio_id=data['servicio_id'];
-                this.descripcion=data['descripcion'];
-                this.importe=data['importe'];
+                this.persona_id=data['persona_id'];
+                this.fecha=data['fecha'];
+                this.sub_total=data['sub_total'];
+                this.num_factura=data['num_factura'];
                 swal({
                 title: '¿Desea eliminar?',
                 text: "Esta acción no se puede revertir!",
@@ -323,14 +320,14 @@
                 if (result.value) {
                     let me = this;
 
-                axios.delete('/lavado/eliminar', 
+                axios.delete('/venta/eliminar', 
                         {params: {'id': this.id}}).then(function (response){
                         swal(
                         'Borrado!',
                         'Registro borrado correctamente.',
                         'success'
                         )
-                        me.listarLavado(1,'','servicios.nombre');
+                        me.listarCompra(1,'','personas.nombre');
                     }).catch(function (error){
                         console.log(error);
                     });
@@ -346,45 +343,53 @@
                     return true;
                 }
             },
-            validarLavado(){
-                this.errorLavado=0;
-                this.errorMostrarMsjLavado=[];
+            validarCompra(){
+                this.errorCompra=0;
+                this.errorMostrarMsjCompra=[];
                 
-                if(!this.importe) //Si la variable departamento esta vacia
-                    this.errorMostrarMsjLavado.push("El importe del servicio no puede ir vacio.");
+                if(this.personal_id==0) 
+                    this.errorMostrarMsjCompra.push("Se debe seleccionar el cliente.");
 
-                 if(this.servicio_id==0) //Si la variable departamento esta vacia
-                    this.errorMostrarMsjLavado.push("Se debe seleccionar un servicio");
+                if(!this.sub_total) 
+                    this.errorMostrarMsjCompra.push("El subtotal no puede ir vacio.");
 
-                if(this.errorMostrarMsjLavado.length)//Si el mensaje tiene almacenado algo en el array
-                    this.errorLavado = 1;
+                if(!this.fecha) 
+                    this.errorMostrarMsjCompra.push("La fecha no puede ir vacia");
 
-                return this.errorLavado;
+                if(!this.num_factura) 
+                    this.errorMostrarMsjCompra.push("El numero de la factura no puede ir vacio");
+
+                if(this.errorMostrarMsjCompra.length)//Si el mensaje tiene almacenado algo en el array
+                    this.errorCompra = 1;
+
+                return this.errorCompra;
             },
             cerrarModal(){
                 this.modal = 0;
                 this.tituloModal = '';
-                this.servicio_id = 0;
-                this.descripcion = '';
-                this.importe=0;
-                this.errorLavado = 0;
-                this.errorMostrarMsjLavado = [];
+                this.persona_id = 0;
+                this.fecha = '';
+                this.num_factura = '';
+                this.sub_total=0;
+                this.errorCompra = 0;
+                this.errorMostrarMsjCompra = [];
 
             },
             /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
             abrirModal(modelo, accion,data =[]){
-                this.selectServicio();
+                this.selectCliente();
                 switch(modelo){
-                    case "lavado":
+                    case "compra":
                     {
                         switch(accion){
                             case 'registrar':
                             {
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Lavado';
-                                this.servicio_id = 0;
-                                this.descripcion ='';
-                                this.importe ='';
+                                this.tituloModal = 'Registrar Venta';
+                                this.persona_id = 0;
+                                this.fecha ='';
+                                this.num_factura = '';
+                                this.sub_total ='';
                                 this.tipoAccion = 1;
                                 break;
                             }
@@ -392,12 +397,13 @@
                             {
                                 //console.log(data);
                                 this.modal =1;
-                                this.tituloModal='Actualizar Lavado';
+                                this.tituloModal='Actualizar Venta';
                                 this.tipoAccion=2;
                                 this.id=data['id'];
-                                this.servicio_id=data['servicio_id'];
-                                this.descripcion=data['descripcion'];
-                                this.importe=data['importe'];
+                                this.persona_id=data['persona_id'];
+                                this.fecha=data['fecha'];
+                                this.num_factura=data['num_factura'];
+                                this.sub_total=data['sub_total'];
                                 break;
                             }
                         }
@@ -406,7 +412,7 @@
             }
         },
         mounted() {
-            this.listarLavado(1,this.buscar,this.criterio);
+            this.listarCompra(1,this.buscar,this.criterio);
         }
     }
 </script>
