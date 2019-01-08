@@ -37,28 +37,6 @@
                 </ul>
             </li>
             <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-basket"></i> Ventas</a>
-                <ul class="nav-dropdown-items">
-                    <li @click="menu=7" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-basket-loaded"></i> Ventas</a>
-                    </li>
-                    <li @click="menu=8" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-notebook"></i> Clientes</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i> Acceso</a>
-                <ul class="nav-dropdown-items">
-                    <li @click="menu=7" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-user"></i> Usuarios</a>
-                    </li>
-                    <li @click="menu=8" class="nav-item">
-                        <a class="nav-link" href="#"><i class="icon-user-following"></i> Roles</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-pie-chart"></i> Reportes</a>
                 <ul class="nav-dropdown-items">
                     <li @click="menu=9" class="nav-item">

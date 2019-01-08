@@ -289,6 +289,13 @@
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarPersona(1,'','nombre');
+                     swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Usuario registrado correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -313,6 +320,13 @@
                 }).then(function (response) {
                     me.cerrarModal();
                     me.listarPersona(1,'','nombre');
+                     swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Cambios guardados correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
                 }).catch(function (error) {
                     console.log(error);
                 }); 
