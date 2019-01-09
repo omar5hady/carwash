@@ -468,7 +468,6 @@
 
             },
             abrirModal2(modelo, accion,data =[]){
-                this.selectProveedor();
                 switch(modelo){
                     case "compra":
                     {
@@ -488,6 +487,7 @@
         },
             /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
             abrirModal(modelo, accion,data =[]){
+                this.selectProveedor();
                 switch(modelo){
                     case "compra":
                     {
