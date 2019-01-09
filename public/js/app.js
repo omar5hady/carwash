@@ -42169,12 +42169,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             id: 0,
             descripcion: '',
+            fecha_ini: '',
+            fecha_fin: '',
+            modal2: 0,
             importe: 0,
             servicio_id: 0,
             arrayLavado: [],
@@ -42393,6 +42440,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.errorLavado = 0;
             this.errorMostrarMsjLavado = [];
         },
+        cerrarModal2: function cerrarModal2() {
+            this.modal2 = 0;
+            this.tituloModal = '';
+            this.fecha_ini = '';
+            this.fecha_fin = '';
+            this.errorCompra = 0;
+            this.errorMostrarMsjCompra = [];
+        },
+        abrirModal2: function abrirModal2(modelo, accion) {
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+            switch (modelo) {
+                case "lavado":
+                    {
+                        switch (accion) {
+                            case 'pdf':
+                                {
+                                    //console.log(data);
+                                    this.modal2 = 1;
+                                    this.tituloModal = 'Descargar pdf';
+                                    this.fecha_ini = '';
+                                    this.fecha_fin = '';
+                                    break;
+                                }
+                        }
+                    }
+            }
+        },
 
         /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
         abrirModal: function abrirModal(modelo, accion) {
@@ -42466,6 +42541,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\n                    ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.abrirModal2("lavado", "pdf")
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-arrow-circle-down" }),
+              _vm._v(" Descargar resumen de lavados\n                    ")
             ]
           )
         ]),
@@ -43042,6 +43134,180 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modal2 },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-md-3 form-control-label",
+                        attrs: { for: "email-input" }
+                      },
+                      [_vm._v("Rango de fecha")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-2 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Desde:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fecha_ini,
+                              expression: "fecha_ini"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", placeholder: "Fecha inicio" },
+                          domProps: { value: _vm.fecha_ini },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.fecha_ini = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-3" }, [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "col-md-2 form-control-label",
+                            attrs: { for: "email-input" }
+                          },
+                          [_vm._v("Hasta:")]
+                        ),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.fecha_fin,
+                              expression: "fecha_fin"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "date", placeholder: "Fecha fin" },
+                          domProps: { value: _vm.fecha_fin },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.fecha_fin = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: {
+                      href: "lavado/pdf/" + _vm.fecha_ini + "/" + _vm.fecha_fin
+                    }
+                  },
+                  [
+                    _c("i"),
+                    _vm._v(" Descargar resumen\n                        ")
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -43340,18 +43606,102 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             id: 0,
             fecha: '',
+            month: 0,
+            year: 0,
             sub_total: 0,
             persona_id: 0,
             num_factura: '',
             arrayProveedor: [],
             arrayCompra: [],
             modal: 0,
+            modal2: 0,
             tituloModal: '',
             tipoAccion: 0,
             errorCompra: 0,
@@ -43556,12 +43906,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.errorCompra = 0;
             this.errorMostrarMsjCompra = [];
         },
+        cerrarModal2: function cerrarModal2() {
+            this.modal2 = 0;
+            this.tituloModal = '';
+            this.year = 0;
+            this.month = 0;
+            this.errorCompra = 0;
+            this.errorMostrarMsjCompra = [];
+        },
+        abrirModal2: function abrirModal2(modelo, accion) {
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+            this.selectProveedor();
+            switch (modelo) {
+                case "compra":
+                    {
+                        switch (accion) {
+                            case 'excel':
+                                {
+                                    //console.log(data);
+                                    this.modal2 = 1;
+                                    this.tituloModal = 'Descargar resumen de mes';
+                                    this.year = 0;
+                                    this.month = 0;
+                                    break;
+                                }
+                        }
+                    }
+            }
+        },
 
         /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
         abrirModal: function abrirModal(modelo, accion) {
             var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
-            this.selectProveedor();
             switch (modelo) {
                 case "compra":
                     {
@@ -43595,6 +43973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         }
     },
+
     mounted: function mounted() {
         this.listarCompra(1, this.buscar, this.criterio);
     }
@@ -43631,6 +44010,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\n                    ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.abrirModal2("compra", "excel")
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-arrow-circle-down" }),
+              _vm._v(" Descargar excel\n                    ")
             ]
           )
         ]),
@@ -44238,6 +44634,327 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modal2 },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "email-input" }
+                        },
+                        [_vm._v("Mes (*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.month,
+                                expression: "month"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.month = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione el Mes")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v("Enero")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2" } }, [
+                              _vm._v("Febrero")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "3" } }, [
+                              _vm._v("Marzo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "4" } }, [
+                              _vm._v("Abril")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "5" } }, [
+                              _vm._v("Mayo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "6" } }, [
+                              _vm._v("Junio")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "7" } }, [
+                              _vm._v("Julio")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "8" } }, [
+                              _vm._v("Agosto")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "9" } }, [
+                              _vm._v("Septiembre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "10" } }, [
+                              _vm._v("Octubre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "11" } }, [
+                              _vm._v("Noviembre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "12" } }, [
+                              _vm._v("Diciembre")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "email-input" }
+                        },
+                        [_vm._v("Año (*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.year,
+                                expression: "year"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.year = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione el Año")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2019" } }, [
+                              _vm._v("2019")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2020" } }, [
+                              _vm._v("2020")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2021" } }, [
+                              _vm._v("2021")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2022" } }, [
+                              _vm._v("2022")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2023" } }, [
+                              _vm._v("2023")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2024" } }, [
+                              _vm._v("2024")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2025" } }, [
+                              _vm._v("2025")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2026" } }, [
+                              _vm._v("2026")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2027" } }, [
+                              _vm._v("2027")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2028" } }, [
+                              _vm._v("2028")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2029" } }, [
+                              _vm._v("2029")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2030" } }, [
+                              _vm._v("2030")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorCompra,
+                            expression: "errorCompra"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "text-center text-error" },
+                          _vm._l(_vm.errorMostrarMsjCompra, function(error) {
+                            return _c("div", {
+                              key: error,
+                              domProps: { textContent: _vm._s(error) }
+                            })
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: {
+                      href:
+                        "/compra/resume_compras?month=" +
+                        _vm.month +
+                        "&year=" +
+                        _vm.year
+                    }
+                  },
+                  [
+                    _c("i"),
+                    _vm._v(" Descargar resumen\n                        ")
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -44542,6 +45259,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -44554,6 +45364,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             arrayProveedor: [],
             arrayVenta: [],
             modal: 0,
+            modal2: 0,
+            year: 0,
+            month: 0,
             tituloModal: '',
             tipoAccion: 0,
             errorCompra: 0,
@@ -44721,6 +45534,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
+        cancelarFactura: function cancelarFactura(id) {
+            var _this2 = this;
+
+            swal({
+                title: 'Esta seguro de cancelar esta factura?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+            }).then(function (result) {
+                if (result.value) {
+                    var me = _this2;
+
+                    axios.put('/venta/cancelar', {
+                        'id': id
+                    }).then(function (response) {
+                        me.listarCompra(1, '', 'personas.nombre');
+                        swal('Desactivado!', 'El registro ha sido cancelado con éxito.', 'success');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                } else if (
+                // Read more about handling dismissals
+                result.dismiss === swal.DismissReason.cancel) {}
+            });
+        },
 
         isNumber: function isNumber(evt) {
             evt = evt ? evt : window.event;
@@ -44757,6 +45602,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.sub_total = 0;
             this.errorCompra = 0;
             this.errorMostrarMsjCompra = [];
+        },
+        cerrarModal2: function cerrarModal2() {
+            this.modal2 = 0;
+            this.tituloModal = '';
+            this.year = 0;
+            this.month = 0;
+            this.errorCompra = 0;
+            this.errorMostrarMsjCompra = [];
+        },
+        abrirModal2: function abrirModal2(modelo, accion) {
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+            switch (modelo) {
+                case "compra":
+                    {
+                        switch (accion) {
+                            case 'excel':
+                                {
+                                    //console.log(data);
+                                    this.modal2 = 1;
+                                    this.tituloModal = 'Descargar resumen de mes';
+                                    this.year = 0;
+                                    this.month = 0;
+                                    break;
+                                }
+                        }
+                    }
+            }
         },
 
         /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
@@ -44833,6 +45706,23 @@ var render = function() {
             [
               _c("i", { staticClass: "icon-plus" }),
               _vm._v(" Nuevo\n                    ")
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  _vm.abrirModal2("compra", "excel")
+                }
+              }
+            },
+            [
+              _c("i", { staticClass: "fa fa-arrow-circle-down" }),
+              _vm._v(" Descargar excel\n                    ")
             ]
           )
         ]),
@@ -44981,35 +45871,61 @@ var render = function() {
                 "tbody",
                 _vm._l(_vm.arrayVenta, function(venta) {
                   return _c("tr", { key: venta.id }, [
-                    _c("td", { staticStyle: { width: "10%" } }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-warning btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.abrirModal("compra", "actualizar", venta)
+                    _c(
+                      "td",
+                      { staticStyle: { width: "13%" } },
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-warning btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.abrirModal("compra", "actualizar", venta)
+                              }
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "icon-pencil" })]
-                      ),
-                      _vm._v("  \n                                    "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function($event) {
-                              _vm.eliminarCompra(venta)
+                          },
+                          [_c("i", { staticClass: "icon-pencil" })]
+                        ),
+                        _vm._v("  \n                                    "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                _vm.eliminarCompra(venta)
+                              }
                             }
-                          }
-                        },
-                        [_c("i", { staticClass: "icon-trash" })]
-                      )
-                    ]),
+                          },
+                          [_c("i", { staticClass: "icon-trash" })]
+                        ),
+                        _vm._v("  \n                                    "),
+                        venta.cancelada == 0
+                          ? [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-danger btn-sm",
+                                  attrs: {
+                                    type: "button",
+                                    title: "Cancelar Factura"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.cancelarFactura(venta.id)
+                                    }
+                                  }
+                                },
+                                [_c("i", { staticClass: "icon-close" })]
+                              )
+                            ]
+                          : [_vm._m(2, true)]
+                      ],
+                      2
+                    ),
                     _vm._v(" "),
                     _c("td", {
                       domProps: { textContent: _vm._s(venta.nombre) }
@@ -45440,6 +46356,327 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modal2 },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "email-input" }
+                        },
+                        [_vm._v("Mes (*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-5" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.month,
+                                expression: "month"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.month = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione el Mes")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "1" } }, [
+                              _vm._v("Enero")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2" } }, [
+                              _vm._v("Febrero")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "3" } }, [
+                              _vm._v("Marzo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "4" } }, [
+                              _vm._v("Abril")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "5" } }, [
+                              _vm._v("Mayo")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "6" } }, [
+                              _vm._v("Junio")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "7" } }, [
+                              _vm._v("Julio")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "8" } }, [
+                              _vm._v("Agosto")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "9" } }, [
+                              _vm._v("Septiembre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "10" } }, [
+                              _vm._v("Octubre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "11" } }, [
+                              _vm._v("Noviembre")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "12" } }, [
+                              _vm._v("Diciembre")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "email-input" }
+                        },
+                        [_vm._v("Año (*)")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.year,
+                                expression: "year"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.year = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c("option", { attrs: { value: "0" } }, [
+                              _vm._v("Seleccione el Año")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2019" } }, [
+                              _vm._v("2019")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2020" } }, [
+                              _vm._v("2020")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2021" } }, [
+                              _vm._v("2021")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2022" } }, [
+                              _vm._v("2022")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2023" } }, [
+                              _vm._v("2023")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2024" } }, [
+                              _vm._v("2024")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2025" } }, [
+                              _vm._v("2025")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2026" } }, [
+                              _vm._v("2026")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2027" } }, [
+                              _vm._v("2027")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2028" } }, [
+                              _vm._v("2028")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2029" } }, [
+                              _vm._v("2029")
+                            ]),
+                            _vm._v(" "),
+                            _c("option", { attrs: { value: "2030" } }, [
+                              _vm._v("2030")
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorCompra,
+                            expression: "errorCompra"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "text-center text-error" },
+                          _vm._l(_vm.errorMostrarMsjCompra, function(error) {
+                            return _c("div", {
+                              key: error,
+                              domProps: { textContent: _vm._s(error) }
+                            })
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.cerrarModal2()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-success",
+                    attrs: {
+                      href:
+                        "/venta/resume_ventas?month=" +
+                        _vm.month +
+                        "&year=" +
+                        _vm.year
+                    }
+                  },
+                  [
+                    _c("i"),
+                    _vm._v(" Descargar resumen\n                        ")
+                  ]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -45481,6 +46718,16 @@ var staticRenderFns = [
         _c("th", [_vm._v("Total")])
       ])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-info btn-sm", attrs: { type: "button" } },
+      [_c("i", { staticClass: "icon-check" })]
+    )
   }
 ]
 render._withStripped = true

@@ -13,6 +13,10 @@
                         <button type="button" @click="abrirModal('lavado','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+
+                        <button type="button" @click="abrirModal2('lavado','pdf')" class="btn btn-success">
+                            <i class="fa fa-arrow-circle-down"></i>&nbsp;Descargar resumen de lavados
+                        </button>
                         <!---->
                     </div>
                     <div class="card-body">
@@ -135,6 +139,46 @@
             </div>
             <!--Fin del modal-->
             
+             <!--Inicio del modal excel-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar': modal2}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal2()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <label class="col-md-3 form-control-label" for="email-input">Rango de fecha</label>
+                                <div class="form-group row">
+                                    
+                                    <div class="col-md-3">
+                                        <label class="col-md-2 form-control-label" for="email-input">Desde:</label>
+                                        <input type="date" v-model="fecha_ini" class="form-control" placeholder="Fecha inicio">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="col-md-2 form-control-label" for="email-input">Hasta:</label>
+                                        <input type="date" v-model="fecha_fin" class="form-control" placeholder="Fecha fin">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Botones del modal -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal2()">Cerrar</button>
+                            <!-- Condicion para elegir el boton a mostrar dependiendo de la accion solicitada-->
+                            <a class="btn btn-success" v-bind:href="'lavado/pdf/'+ fecha_ini + '/' + fecha_fin" >
+                                <i></i>&nbsp;Descargar resumen
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
 
         </main>
 </template>
@@ -149,6 +193,9 @@
             return{
                 id:0,
                 descripcion : '',
+                fecha_ini : '',
+                fecha_fin :'',
+                modal2:0,
                 importe:0,
                 servicio_id: 0,
                 arrayLavado : [],
@@ -371,6 +418,33 @@
                 this.errorMostrarMsjLavado = [];
 
             },
+             cerrarModal2(){
+                this.modal2 = 0;
+                this.tituloModal = '';
+                this.fecha_ini = '';
+                this.fecha_fin = '';
+                this.errorCompra = 0;
+                this.errorMostrarMsjCompra = [];
+
+            },
+            abrirModal2(modelo, accion,data =[]){
+                switch(modelo){
+                    case "lavado":
+                    {
+                        switch(accion){
+                            case 'pdf':
+                            {
+                                //console.log(data);
+                                this.modal2 =1;
+                                this.tituloModal='Descargar pdf';
+                                this.fecha_ini = '';
+                                this.fecha_fin = '';
+                                break;
+                            }
+                        }
+                    }
+                }
+        },
             /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
             abrirModal(modelo, accion,data =[]){
                 this.selectServicio();

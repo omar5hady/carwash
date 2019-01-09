@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Lavado;
 use App\Servicio;
 use Carbon\Carbon;
+use DB;
 
 class LavadoController extends Controller
 {
@@ -40,6 +41,28 @@ class LavadoController extends Controller
             'lavados' => $lavados
         ];
 
+    }
+
+    public function listarPDF(Request $request, $fecha_ini, $fecha_fin){
+        //$buscar = $request->fecha_ini;
+        //$buscar2 = $request->fecha_fin;
+        setlocale(LC_TIME, 'es');
+        $lavados = Lavado::join('servicios','lavados.servicio_id','=','servicios.id')
+            ->select('lavados.id','lavados.fecha','lavados.importe','lavados.descripcion',
+                'servicios.nombre','lavados.servicio_id')
+            ->whereBetween('lavados.fecha', [$fecha_ini, $fecha_fin])
+            ->orderBy('lavados.id', 'desc')->get();
+
+        $suma= Lavado::select(DB::raw("SUM(lavados.importe) as total"))
+        ->whereBetween('lavados.fecha', [$fecha_ini,$fecha_fin])->get();
+
+        /*return [
+            'total' => $suma,
+            'lavados' => $lavados
+        ];*/
+
+        $pdf = \PDF::loadView('pdf.lavadospdf',[ 'total' => $suma,'lavados' => $lavados]);
+        return $pdf->download('lavados.pdf');
     }
 
     public function store(Request $request){

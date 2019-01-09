@@ -13,6 +13,10 @@
                         <button type="button" @click="abrirModal('compra','registrar')" class="btn btn-secondary">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
+
+                        <button type="button" @click="abrirModal2('compra','excel')" class="btn btn-success">
+                            <i class="fa fa-arrow-circle-down"></i>&nbsp;Descargar excel
+                        </button>
                         <!---->
                     </div>
                     <div class="card-body">
@@ -45,13 +49,23 @@
                             </thead>
                             <tbody>
                                 <tr v-for="venta in arrayVenta" :key="venta.id">
-                                    <td style="width:10%">
+                                    <td style="width:13%">
                                         <button type="button" @click="abrirModal('compra','actualizar',venta)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <button type="button" class="btn btn-danger btn-sm" @click="eliminarCompra(venta)">
                                           <i class="icon-trash"></i>
-                                        </button>
+                                        </button>&nbsp;&nbsp;
+                                        <template v-if="venta.cancelada==0">
+                                            <button type="button" class="btn btn-danger btn-sm" @click="cancelarFactura(venta.id)" title="Cancelar Factura">
+                                                <i class="icon-close"></i>
+                                            </button>
+                                        </template>
+                                        <template v-else>
+                                            <button type="button" class="btn btn-info btn-sm">
+                                                <i class="icon-check"></i>
+                                            </button>
+                                        </template>
                                     </td>
                                     <td v-text="venta.nombre"></td>
                                     <td v-text="venta.rfc"></td>
@@ -144,6 +158,85 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
+
+            <!--Inicio del modal excel-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar': modal2}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal2()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="email-input">Mes (*)</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control" v-model="month">
+                                            <option value="0">Seleccione el Mes</option>
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="email-input">Año (*)</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control" v-model="year">
+                                            <option value="0">Seleccione el Año</option>
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                            <option value="2030">2030</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Div para mostrar los errores que mande validerDepartamento -->
+                                <div v-show="errorCompra" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMostrarMsjCompra" :key="error" v-text="error">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Botones del modal -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal2()">Cerrar</button>
+                            <!-- Condicion para elegir el boton a mostrar dependiendo de la accion solicitada-->
+                            <a class="btn btn-success" v-bind:href="'/venta/resume_ventas?month='+ month + '&year=' + year" >
+                                <i></i>&nbsp;Descargar resumen
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
+
             
 
         </main>
@@ -165,6 +258,9 @@
                 arrayProveedor : [],
                 arrayVenta : [],
                 modal : 0,
+                modal2: 0,
+                year:0,
+                month:0,
                 tituloModal : '',
                 tipoAccion: 0,
                 errorCompra : 0,
@@ -334,6 +430,45 @@
                 }
                 })
             },
+            cancelarFactura(id){
+               swal({
+                title: 'Esta seguro de cancelar esta factura?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Aceptar!',
+                cancelButtonText: 'Cancelar',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+                }).then((result) => {
+                if (result.value) {
+                    let me = this;
+
+                    axios.put('/venta/cancelar',{
+                        'id': id
+                    }).then(function (response) {
+                        me.listarCompra(1,'','personas.nombre');
+                        swal(
+                        'Desactivado!',
+                        'El registro ha sido cancelado con éxito.',
+                        'success'
+                        )
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                    
+                    
+                } else if (
+                    // Read more about handling dismissals
+                    result.dismiss === swal.DismissReason.cancel
+                ) {
+                    
+                }
+                }) 
+            },
             isNumber: function(evt) {
                 evt = (evt) ? evt : window.event;
                 var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -375,6 +510,33 @@
                 this.errorMostrarMsjCompra = [];
 
             },
+            cerrarModal2(){
+                this.modal2 = 0;
+                this.tituloModal = '';
+                this.year = 0;
+                this.month = 0;
+                this.errorCompra = 0;
+                this.errorMostrarMsjCompra = [];
+
+            },
+            abrirModal2(modelo, accion,data =[]){
+                switch(modelo){
+                    case "compra":
+                    {
+                        switch(accion){
+                            case 'excel':
+                            {
+                                //console.log(data);
+                                this.modal2 =1;
+                                this.tituloModal='Descargar resumen de mes';
+                                this.year=0;
+                                this.month=0;
+                                break;
+                            }
+                        }
+                    }
+                }
+        },
             /**Metodo para mostrar la ventana modal, dependiendo si es para actualizar o registrar */
             abrirModal(modelo, accion,data =[]){
                 this.selectCliente();

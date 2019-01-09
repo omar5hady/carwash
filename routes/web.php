@@ -21,6 +21,8 @@ Route::group(['middleware'=>['auth']],function(){
 
     Route::post('/logout','Auth\LoginController@logout')->name('logout');
 
+    Route::get('/lavado/pdf/{fecha_ini}/{fecha_fin}','LavadoController@listarPDF')->name('lavados_pdf');
+
     Route::get('/main', function () {
         return view('contenido/contenido');
     })->name('main');
@@ -51,10 +53,13 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/compra','CompraController@index');
         Route::post('/compra/registrar','CompraController@store');
         Route::put('/compra/actualizar','CompraController@update');
+        Route::get('/compra/resume_compras','CompraController@exportExcel');
         
         Route::get('/venta','VentaController@index');
         Route::post('/venta/registrar','VentaController@store');
         Route::put('/venta/actualizar','VentaController@update');
+        Route::get('/venta/resume_ventas','VentaController@exportExcel');
+        Route::put('/venta/cancelar','VentaController@desactivar');
     });
 
     Route::group(['middleware'=>['Administrador']],function(){
@@ -83,10 +88,13 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/compra','CompraController@index');
         Route::post('/compra/registrar','CompraController@store');
         Route::put('/compra/actualizar','CompraController@update');
+        Route::get('/compra/resume_compras','CompraController@exportExcel');
         
         Route::get('/venta','VentaController@index');
         Route::post('/venta/registrar','VentaController@store');
         Route::put('/venta/actualizar','VentaController@update');
+        Route::get('/venta/resume_ventas','VentaController@exportExcel');
+        Route::put('/venta/cancelar','VentaController@desactivar');
         
         Route::get('/rol','RolController@index');
         Route::get('/rol/selectRol', 'RolController@selectRol');

@@ -21,6 +21,7 @@ class CreateVentasTable extends Migration
             $table->float('sub_total')->default(0);
             $table->float('iva')->default(0);
             $table->float('total')->default(0);
+            $table->boolean('cancelada')->default(0);
             $table->timestamps();
 
             $table->foreign('persona_id')->references('id')->on('personas');
