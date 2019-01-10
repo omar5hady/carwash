@@ -323,6 +323,7 @@
                 }).catch(function (error){
                     console.log(error);
                 });
+                
             },
             actualizarLavado(){
                 if(this.validarLavado()) //Se verifica si hay un error (campo vacio)

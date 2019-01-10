@@ -17,22 +17,22 @@
                 </li>
             </div>
             <div v-else>
-                <a><span>No tiene notificaciones</span></a>
+                <a><span>  No tiene notificaciones</span></a>
             </div>
         </div>
     </li>
 </template>
 
 <script>
-export default {
-    props: ['notifications'],
-    data (){
-        return{
+export default {     
+	props : ['notifications'],
+    data (){         
+        return {
             arrayNotifications:[]
-        }
+        } 
     },
     computed:{
-       listar: function()  {
+        listar: function()  {
             //return this.notifications[0];
              this.arrayNotifications = Object.values(this.notifications[0]);
             if (this.notifications == '') {
@@ -51,5 +51,5 @@ export default {
             }
         }
     }
-}
+}   
 </script>

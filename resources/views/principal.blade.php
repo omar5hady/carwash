@@ -10,12 +10,14 @@
     <meta name="keyword" content="Sistema ventas Laravel Vue Js, Sistema compras Laravel Vue Js">
     <meta name="csrf-token" content="{{ csrf_token() }}">    
     <link rel="shortcut icon" href="img/favicon.png">
+    <!-- Id for Channel Notification -->
+    <meta name="userId" content="{{ Auth::check() ? Auth::user()->id : ''}}">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js">
     <title>Sistema Ventas - IncanatoIT</title>
     <!-- Icons -->
     <link href="css/plantilla.css" rel="stylesheet">
-    <!-- Id for Channel Notification -->
-    <meta name="userId" content="{{ Auth::check() ? Auth::user()->id : ''}}">
+    
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">

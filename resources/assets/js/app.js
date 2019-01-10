@@ -32,7 +32,7 @@ const app = new Vue({
     el: '#app',
     data:{
         menu : 0,
-        notifications:[]
+        notifications: []
     },
     created() {
         let me = this;     
@@ -48,5 +48,6 @@ const app = new Vue({
         Echo.private('App.User.' + userId).notification((notification) => {
              me.notifications.unshift(notification); 
         }); 
-    }      
+        
+    }        
 });

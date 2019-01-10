@@ -71,6 +71,7 @@ class LavadoController extends Controller
     public function store(Request $request){
         $current = Carbon::today()->format('ymd');
 
+        
         $lavado = new Lavado();
         $lavado->servicio_id = $request->servicio_id;
         $lavado->descripcion = $request->descripcion;
@@ -94,8 +95,6 @@ class LavadoController extends Controller
         foreach ($allUsers as $notificar) {
             User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos)); 
         }
-
-   
     }
 
     public function update(Request $request){
