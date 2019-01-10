@@ -17,7 +17,7 @@ class CreateLavadosTable extends Migration
             $table->increments('id');
             $table->date('fecha');
             $table->unsignedInteger('servicio_id');
-            $table->string('descripcion',191);
+            $table->string('descripcion',191)->nullable();
             $table->float('importe')->default(0);
             $table->timestamps();
 

@@ -8,12 +8,14 @@
     <meta name="description" content="Sistema Ventas Laravel Vue Js- IncanatoIT">
     <meta name="author" content="Incanatoit.com">
     <meta name="keyword" content="Sistema ventas Laravel Vue Js, Sistema compras Laravel Vue Js">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">    
     <link rel="shortcut icon" href="img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js">
     <title>Sistema Ventas - IncanatoIT</title>
     <!-- Icons -->
     <link href="css/plantilla.css" rel="stylesheet">
+    <!-- Id for Channel Notification -->
+    <meta name="userId" content="{{ Auth::check() ? Auth::user()->id : ''}}">
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
@@ -35,25 +37,9 @@
             </li>
         </ul>
         <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item d-md-down-none">
-                <a class="nav-link" href="#" data-toggle="dropdown">
-                    <i class="icon-bell"></i>
-                    <span class="badge badge-pill badge-danger">5</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-header text-center">
-                        <strong>Notificaciones</strong>
-                    </div>
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-envelope-o"></i> Ingresos
-                        <span class="badge badge-success">3</span>
-                    </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-tasks"></i> Ventas
-                        <span class="badge badge-danger">2</span>
-                    </a>
-                </div>
-            </li>
+            <!-- Notificaciones -->
+            <notification-component :notifications="notifications"></notification-component>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">

@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+window.$ = window.JQuery = require('jquery');
 window.Vue = require('vue');
 //window.axios = require('axios');
 
@@ -15,7 +16,7 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
+Vue.component('notification-component', require('./components/Notification.vue'));
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('servicio-component', require('./components/Servicio.vue'));
 Vue.component('cliente-component', require('./components/Cliente.vue'));
@@ -30,6 +31,22 @@ Vue.component('dashboard-component', require('./components/Dashboard.vue'));
 const app = new Vue({
     el: '#app',
     data:{
-        menu : 0
-    }
+        menu : 0,
+        notifications:[]
+    },
+    created() {
+        let me = this;     
+        axios.post('notification/get').then(function(response) {
+           //console.log(response.data);
+           me.notifications=response.data;    
+        }).catch(function(error) {
+            console.log(error);
+        });
+
+        var userId = $('meta[name="userId"]').attr('content');
+        
+        Echo.private('App.User.' + userId).notification((notification) => {
+             me.notifications.unshift(notification); 
+        }); 
+    }      
 });

@@ -20,6 +20,7 @@ Route::group(['middleware'=>['guest']],function(){
 Route::group(['middleware'=>['auth']],function(){
 
     Route::post('/logout','Auth\LoginController@logout')->name('logout');
+    Route::post('/notification/get','NotificationController@get');
 
     Route::get('/lavado/pdf/{fecha_ini}/{fecha_fin}','LavadoController@listarPDF')->name('lavados_pdf');
     Route::get('/dashboard','DashboardController');
@@ -50,6 +51,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/lavado','LavadoController@index');
         Route::post('/lavado/registrar','LavadoController@store');
         Route::put('/lavado/actualizar','LavadoController@update');
+        Route::delete('/lavado/eliminar','LavadoController@destroy');
         
         Route::get('/compra','CompraController@index');
         Route::post('/compra/registrar','CompraController@store');
@@ -85,6 +87,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/lavado','LavadoController@index');
         Route::post('/lavado/registrar','LavadoController@store');
         Route::put('/lavado/actualizar','LavadoController@update');
+        Route::delete('/lavado/eliminar','LavadoController@destroy');
         
         Route::get('/compra','CompraController@index');
         Route::post('/compra/registrar','CompraController@store');

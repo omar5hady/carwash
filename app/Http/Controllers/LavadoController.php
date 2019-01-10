@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Lavado;
 use App\Servicio;
+use App\User;
 use Carbon\Carbon;
 use DB;
+use App\Notification;
+use App\Notifications\NotifyAdmin;
 
 class LavadoController extends Controller
 {
@@ -19,14 +22,14 @@ class LavadoController extends Controller
             $lavados = Lavado::join('servicios','lavados.servicio_id','=','servicios.id')
             ->select('lavados.id','lavados.fecha','lavados.importe','lavados.descripcion',
                 'servicios.nombre','lavados.servicio_id')
-            ->orderBy('lavados.id', 'desc')->paginate(3);
+            ->orderBy('lavados.id', 'desc')->paginate(8);
         }
         else{
             $lavados = Lavado::join('servicios','lavados.servicio_id','=','servicios.id')
             ->select('lavados.id','lavados.fecha','lavados.importe','lavados.descripcion', 'lavados.servicio_id',
                 'servicios.nombre')            
             ->where($criterio, 'like', '%'. $buscar . '%')
-            ->orderBy('lavados.id', 'desc')->paginate(3);
+            ->orderBy('lavados.id', 'desc')->paginate(8);
         }
 
         return [
@@ -74,6 +77,25 @@ class LavadoController extends Controller
         $lavado->importe = $request->importe;
         $lavado->fecha = $current;
         $lavado->save();
+
+
+        //Notificacion de un servicio
+        $fechaActual= date('Y-m-d');
+        $numLavados = DB::table('lavados')->whereDate('created_at', $fechaActual)->count();
+
+        $arregloDatos = [
+            'servicios' => [
+                        'numero' => $numLavados,
+                        'msj' => 'Servicios'
+            ]
+        ];
+        $allUsers = User::all();
+
+        foreach ($allUsers as $notificar) {
+            User::findOrFail($notificar->id)->notify(new NotifyAdmin($arregloDatos)); 
+        }
+
+   
     }
 
     public function update(Request $request){
